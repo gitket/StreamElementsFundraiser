@@ -42,6 +42,14 @@
     "label": "Tracker Font Size",
     "value": 30
   },
+  "donorFontSize": {
+    "type": "number",
+    "min": 10,
+    "max": 40,
+    "step": 1,
+    "label": "Donor Font Size",
+    "value": 20
+  },
   "trackerFontMarginTop": {
     "type": "number",
     "min": 0,
@@ -77,6 +85,11 @@
   "backgroundColor": {
     "type": "colorpicker",
     "label": "Background color",
+    "value": "rgba(36, 6, 73, 0.15)"
+  },
+  "donorColor": {
+    "type": "colorpicker",
+    "label": "Donor color",
     "value": "rgba(36, 6, 73, 0.15)"
   },
   "iconColor": {
