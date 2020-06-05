@@ -16,8 +16,10 @@ window.addEventListener('onWidgetLoad', function (obj) {
   const fieldData = obj.detail.fieldData;
   audio = fieldData.changeSound;
   cID = fieldData.campaignID;
+  
   if(cID){
     getInitial();
+    getDonors();
     timer = setInterval(()=>{
       fetch(proxyUrl + targetUrl + cID)
       .then(blob => blob.json())
@@ -27,6 +29,7 @@ window.addEventListener('onWidgetLoad', function (obj) {
       	if(startingAmount != total){
           startingAmount = total;
           addEvent(total, goal);
+    	  getDonors();
         }
 
       })
@@ -37,6 +40,32 @@ window.addEventListener('onWidgetLoad', function (obj) {
   }
 
 });
+
+
+function getDonors(){
+  let donorFeed = '/initial-feed?with=member,linkable&sort=created_at:desc&per_page=6';
+    fetch(proxyUrl + targetUrl + cID + donorFeed)
+      .then(blob => blob.json())
+      .then(data => {
+      	let donorhtmlstr = '';
+      	data.data.forEach(element =>{
+          if(element.linkable){
+          	let details = element.linkable;
+            let donorName = details.member_name;
+            let donorAmt = details.donation_gross_amount;
+            donorhtmlstr += `<span class='donor-spacer'>${donorName} - $${donorAmt}</span>`
+          }
+        })
+      
+      $(".marquee").remove();
+      let donors =   `<p class="marquee">`+donorhtmlstr +`
+    </p>`
+      $(".marquee-container").prepend(donors);
+      })
+      .catch(e => {
+        addEvent('Error', e.toString());
+      });
+}
 
 function getInitial(){
   fetch(proxyUrl + targetUrl + cID)
