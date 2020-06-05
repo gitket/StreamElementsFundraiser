@@ -1,7 +1,5 @@
 * {
     font-family: 'Montserrat', sans-serif;
-    color: {{fontColor}};
-  	font-size: {{trackerFontSize}}px;
 }
 .fadeOutClass{
     animation: fadeOut 1s;
@@ -73,7 +71,10 @@
         opacity: 1;
     }
 }
-
+.main-container{
+    color: {{fontColor}};
+  	font-size: {{trackerFontSize}}px;
+}
 .event-container {
     width: 0px;
   	height: {{trackerHeight}}px;
@@ -115,3 +116,22 @@
     margin-left: 85px;
   	margin-top: {{trackerFontMarginTop}}px;
 }
+
+.marquee-container{
+  overflow:hidden;
+  color: {{donorColor}};
+  font-size: {{donorFontSize}}px;
+  margin-top: -15px;
+}
+.marquee{
+  min-width:100%;
+  animation: marquee 15s linear infinite;
+}
+.donor-spacer{
+	padding-right: 50px;
+}
+
+@keyframes marquee {
+  from{margin-left : 120%;}
+    to{margin-left: -20%;}
+} 
