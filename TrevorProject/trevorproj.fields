@@ -3,6 +3,10 @@
    "type": "sound-input",
    "label": "Donation total changed sound"
  },
+  "scareSound": {
+   "type": "sound-input",
+   "label": "Donation scare changed sound"
+ },
   "campaignID": {
     "type": "text",
     "label": "Trevor Project Campaign ID",
