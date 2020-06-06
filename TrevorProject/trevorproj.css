@@ -1,5 +1,5 @@
 * {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Open Sans', sans-serif;
 }
 .fadeOutClass{
     animation: fadeOut 1s;
@@ -117,6 +117,32 @@
   	margin-top: {{trackerFontMarginTop}}px;
 }
 
+.alert-container{
+    font-size: 30px;
+    font-weight: 700;
+  	color: #fff;
+	text-shadow: 0px 0px 1px #000, 0px 0px 2px #000, 0px 0px 3px #000, 0px 0px 4px #000, 0px 0px 5px #000;
+}
+.donor-highlight{
+  -webkit-text-fill-color:  {{donorColor}} !important;
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+  from {
+    text-shadow: 0px 0px 1px #000, 0px 0px 2px #000, 0px 0px 3px #000, 0px 0px 4px #000, 0px 0px 5px #000, 0 0 10px #000, 0 0 20px #000, 0 0 30px #000, 0 0 40px #000, 0 0 50px #000, 0 0 60px #000, 0 0 70px #000;
+  }
+  to {
+    text-shadow: 0px 0px 1px #000, 0px 0px 2px #000, 0px 0px 3px #000, 0px 0px 4px #000, 0px 0px 5px #000, 0 0 20px #000, 0 0 30px #000, 0 0 40px #000, 0 0 50px #000, 0 0 60px #000, 0 0 70px #000, 0 0 80px #000;
+  }
+}
+
+.donor-message{
+    font-size: 25px;
+}
+
 .marquee-container{
   overflow:hidden;
   color: {{donorColor}};
@@ -124,8 +150,9 @@
   margin-top: -15px;
 }
 .marquee{
-  min-width:100%;
-  animation: marquee 15s linear infinite;
+  overflow: scroll-x;
+  min-width:150%;
+  animation: marquee 20s linear infinite;
 }
 .donor-spacer{
 	padding-right: 50px;
@@ -133,5 +160,5 @@
 
 @keyframes marquee {
   from{margin-left : 120%;}
-    to{margin-left: -20%;}
+    to{margin-left: -120%;}
 } 
