@@ -7,9 +7,11 @@ let eventsLimit = 1,
     fadeoutTime = 999;
 	startingAmount = 0;
 let intervalTimer;
+let alertTimer;
 let proxyUrl = 'https://cors-anywhere.herokuapp.com/';
 let targetUrl = 'https://give.thetrevorproject.org/frs-api/fundraising-pages/';
 let lastDisplayedId = '';
+let alertQueue = [];
 
 
 window.addEventListener('onWidgetLoad', function (obj) {
@@ -42,6 +44,9 @@ window.addEventListener('onWidgetLoad', function (obj) {
         addEvent('Error', e.toString());
       });
     }, 30000);
+    alertTimer = setInterval(()=>{
+      donationAlert();
+    }, 10000)
   }
 
 });
@@ -70,9 +75,21 @@ function getDonors(first){
       if(first){
       	lastDisplayedId = latestDonorId;
       }else{ 
-        console.log('why u not first')
-		setTimeout(()=>queueDonations(data.data), 0);
-
+        for (var i = 0; i < data.data.length; i++) {
+          if(data.data[i].id != lastDisplayedId){
+            let tmpName = data.data[i].member_name.split(" ");
+            let anonyName = tmpName[0] + ' ' + tmpName[1].charAt(0);
+            let alertInfo = {
+              name: anonyName,
+              donoAmt: data.data[i].linkable.donation_gross_amount,
+              message: data.data[i].linkable.comment
+            }
+            alertQueue.push(alertInfo);
+          }else{
+            break;
+          }    
+        }
+        lastDisplayedId = data.data[0].id;
       }
       
       $(".marquee").remove();
@@ -94,7 +111,6 @@ function getInitial(){
       	if(startingAmount != total){
           startingAmount = total;
           addEvent(total, goal);
-          first = false;
         }
 
       })
@@ -103,52 +119,39 @@ function getInitial(){
       });
 }
 
-// Returns a Promise that resolves after "ms" Milliseconds
-function timer(ms) {
- return new Promise(res => setTimeout(res, ms));
-}
-
-async function queueDonations (data) { // We need to wrap the loop into an async function for this to work
-  for (var i = 0; i < data.length; i++) {
-    if(data[i].id != lastDisplayedId){
-      	let tmpName = data[i].member_name.split(" ");
-        let anonyName = tmpName[0] + ' ' + tmpName[1].charAt(0);
-       donationAlert(anonyName, data[i].linkable.donation_gross_amount, data[i].linkable.comment );
-       await timer(10000); // then the created Promise can be awaited
-  	}else{
-       break;
-    }    
+function donationAlert(){
+  console.log('looking at alerts');
+  if(alertQueue.length > 0){
+    let alertInfo = alertQueue.shift();
+    let name = alertInfo.name;
+    let donoAmt = alertInfo.donoAmt;
+    let message = alertInfo.message;
+    let playMusic = audio;
+    if(donoAmt >= 50){
+      playMusic = scare;
+    }
+    let alertDialog= `
+      <div class='alert'>
+          <div>
+              <span class='donor-highlight'>${name}</span> 
+              donated <span class='donor-highlight'>$${donoAmt}</span> 
+              to The Trevor Project
+          </div>
+          <br>
+          <div class='donor-message'>
+              ${message}
+          </div>
+        <audio id="audio" autoplay >
+          <source id="alertsound" src="${playMusic}" type="audio/ogg">
+        </audio>
+      </div>
+   `;
+    $(".alert-container").prepend(alertDialog);
+    setTimeout(()=>{
+      $(".alert").remove();
+    }, 7000);
   }
-  lastDisplayedId = data[0].id;
-}
-
-function donationAlert(name, donoAmt, message){
-
-  let alertDialog;
-  let playMusic = audio;
-  if(donoAmt >= 50){
-  	playMusic = scare;
-  }
-  alertDialog= `
-	<div class='alert'>
-		<div>
-    		<span class='donor-highlight'>${name}</span> 
-			donated <span class='donor-highlight'>$${donoAmt}</span> 
-			to The Trevor Project
-  		</div>
-  		<br>
-  		<div class='donor-message'>
-    		${message}
- 	 	</div>
-      <audio id="audio" autoplay >
-      	<source id="alertsound" src="${playMusic}" type="audio/ogg">
-      </audio>
- 	</div>
- `;
-  $(".alert-container").prepend(alertDialog);
-  setTimeout(()=>{
-    $(".alert").remove();
-  }, 7000);
+  console.log(alertQueue)
 }
 
 function addEvent(total, goal) {
@@ -167,7 +170,6 @@ function addEvent(total, goal) {
               <div class="username-container">The Trevor Project - Total raised: &#36;${total}  </div>
              <div class="goal-container">Goal: &#36;${goal}</div>
           </div>`;
-          first = false;
       }
 
     $('.main-container').removeClass("fadeOutClass").show().prepend(element);
