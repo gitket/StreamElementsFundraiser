@@ -6,7 +6,6 @@ let eventsLimit = 1,
 	totalEvents = 0,
     fadeoutTime = 999;
 	startingAmount = 0;
-	first = true;
 let intervalTimer;
 let proxyUrl = 'https://cors-anywhere.herokuapp.com/';
 let targetUrl = 'https://give.thetrevorproject.org/frs-api/fundraising-pages/';
@@ -21,8 +20,11 @@ window.addEventListener('onWidgetLoad', function (obj) {
   cID = fieldData.campaignID; 
   
   if(cID){
+    if(window && window.external && window.external.isXsplitShell){
+      proxyUrl = '';
+    }
+    getDonors(true);
     getInitial();
-    getDonors();
     intervalTimer = setInterval(()=>{
       fetch(proxyUrl + targetUrl + cID)
       .then(blob => blob.json())
@@ -32,7 +34,7 @@ window.addEventListener('onWidgetLoad', function (obj) {
       	if(startingAmount != total){
           startingAmount = total;
           addEvent(total, goal);
-    	  getDonors();
+    	  getDonors(false);
         }
 
       })
@@ -45,7 +47,7 @@ window.addEventListener('onWidgetLoad', function (obj) {
 });
 
 
-function getDonors(){
+function getDonors(first){
   let donorFeed = '/feed-items?with=member,linkable&sort=created_at:desc&per_page=5&campaignId=24399&page=1';
     fetch(proxyUrl + targetUrl + cID + donorFeed)
       .then(blob => blob.json())
@@ -123,7 +125,10 @@ async function queueDonations (data) { // We need to wrap the loop into an async
 function donationAlert(name, donoAmt, message){
 
   let alertDialog;
+  let playMusic = audio;
   if(donoAmt >= 50){
+  	playMusic = scare;
+  }
   alertDialog= `
 	<div class='alert'>
 		<div>
@@ -136,28 +141,10 @@ function donationAlert(name, donoAmt, message){
     		${message}
  	 	</div>
       <audio id="audio" autoplay >
-      	<source id="alertsound" src="${scare}" type="audio/ogg">
+      	<source id="alertsound" src="${playMusic}" type="audio/ogg">
       </audio>
-	</div>
-	`;
-  } else{
-      alertDialog= `
-	<div class='alert'>
-		<div>
-    		<span class='donor-highlight'>${name}</span> 
-			donated <span class='donor-highlight'>$${donoAmt}</span> 
-			to The Trevor Project
-  		</div>
-  		<br>
-  		<div class='donor-message'>
-    		${message}
- 	 	</div>
-      <audio id="audio" autoplay >
-      	<source id="alertsound" src="${audio}" type="audio/ogg">
-      </audio>
-	</div>
-	`;
-  }
+ 	</div>
+ `;
   $(".alert-container").prepend(alertDialog);
   setTimeout(()=>{
     $(".alert").remove();
@@ -173,7 +160,7 @@ function addEvent(total, goal) {
               ${goal}
           </div>`;
       }
-      else if (first) {
+      else {
           element =`
           <div class="event-container" id="event-${totalEvents}">
               <div class="backgroundsvg"></div>
@@ -181,17 +168,7 @@ function addEvent(total, goal) {
              <div class="goal-container">Goal: &#36;${goal}</div>
           </div>`;
           first = false;
-    	} else {
-        element = `
-          <div class="event-container" id="event-${totalEvents}">
-              <div class="backgroundsvg"></div>
-              <div class="username-container"> The Trevor Project - Total raised: &#36;${total} </div>
-             <div class="goal-container">Goal: &#36;${goal}</div>
-              <audio id="audio" autoplay >
-                  <source id="alertsound" src="${audio}" type="audio/ogg">
-              </audio>
-          </div>`;
-    	}
+      }
 
     $('.main-container').removeClass("fadeOutClass").show().prepend(element);
     if (fadeoutTime !== 999) {
