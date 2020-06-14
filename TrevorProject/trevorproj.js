@@ -25,7 +25,7 @@ window.addEventListener('onWidgetLoad', function (obj) {
     if(window && window.external && window.external.isXsplitShell){
       proxyUrl = '';
     }
-    getDonors(true);
+    getDonors();
     getInitial();
     intervalTimer = setInterval(()=>{
       fetch(proxyUrl + targetUrl + cID)
@@ -36,7 +36,7 @@ window.addEventListener('onWidgetLoad', function (obj) {
       	if(startingAmount != total){
           startingAmount = total;
           addEvent(total, goal);
-    	  getDonors(false);
+    	  getDonors();
         }
 
       })
@@ -52,7 +52,7 @@ window.addEventListener('onWidgetLoad', function (obj) {
 });
 
 
-function getDonors(first){
+function getDonors(){
   let donorFeed = '/feed-items?with=member,linkable&sort=created_at:desc&per_page=5&campaignId=24399&page=1';
     fetch(proxyUrl + targetUrl + cID + donorFeed)
       .then(blob => blob.json())
@@ -72,13 +72,17 @@ function getDonors(first){
             donorhtmlstr += `<span class='donor-spacer'>${donorName} - $${donorAmt}</span>`
           }
         });
-      if(first){
+      if(!lastDisplayedId){
       	lastDisplayedId = latestDonorId;
       }else{ 
         for (var i = 0; i < data.data.length; i++) {
           if(data.data[i].id != lastDisplayedId){
-            let tmpName = data.data[i].member_name.split(" ");
-            let anonyName = tmpName[0] + ' ' + tmpName[1].charAt(0);
+            let anonyName = 'Anonymous';
+            if(data.data[i].member_name){
+            	let tmpName = data.data[i].member_name.split(" ");
+              	anonyName = tmpName[0] + ' ' + tmpName[1].charAt(0);
+            }
+            
             let alertInfo = {
               name: anonyName,
               donoAmt: data.data[i].linkable.donation_gross_amount,
@@ -89,7 +93,7 @@ function getDonors(first){
             break;
           }    
         }
-        lastDisplayedId = data.data[0].id;
+        lastDisplayedId = latestDonorId;
       }
       
       $(".marquee").remove();
