@@ -57,9 +57,9 @@ function getDonors(){
     fetch(proxyUrl + targetUrl + cID + donorFeed)
       .then(blob => blob.json())
       .then(data => {
-       console.log(data)
 		let latestDonorId = data.data[0].id;
       	let donorhtmlstr = '';
+      	let addMoreAlerts = true;
       	data.data.forEach(element =>{
           if(element.linkable){
           	let details = element.linkable;
@@ -69,32 +69,21 @@ function getDonors(){
               donorName = anonName[0] + ' ' + anonName[1].charAt(0);
             }
             let donorAmt = details.donation_gross_amount;
-            donorhtmlstr += `<span class='donor-spacer'>${donorName} - $${donorAmt}</span>`
+            donorhtmlstr += `<span class='donor-spacer'>${donorName} - $${donorAmt}</span>`;            
+            if(lastDisplayedId && element.id != lastDisplayedId && addMoreAlerts){
+             	let alertInfo = {
+                  	id: element.id,
+             		name: donorName,
+              		donoAmt: element.linkable.donation_gross_amount,
+              		message: element.linkable.comment
+            		}
+            		alertQueue.push(alertInfo);
+            }else{
+              addMoreAlerts = false;
+            }
           }
-        });
-      if(!lastDisplayedId){
+        }); 
       	lastDisplayedId = latestDonorId;
-      }else{ 
-        for (var i = 0; i < data.data.length; i++) {
-          if(data.data[i].id != lastDisplayedId){
-            let anonyName = 'Anonymous';
-            if(data.data[i].member_name){
-            	let tmpName = data.data[i].member_name.split(" ");
-              	anonyName = tmpName[0] + ' ' + tmpName[1].charAt(0);
-            }
-            
-            let alertInfo = {
-              name: anonyName,
-              donoAmt: data.data[i].linkable.donation_gross_amount,
-              message: data.data[i].linkable.comment
-            }
-            alertQueue.push(alertInfo);
-          }else{
-            break;
-          }    
-        }
-        lastDisplayedId = latestDonorId;
-      }
       
       $(".marquee").remove();
       let donors =   `<p class="marquee">`+donorhtmlstr +`
@@ -123,8 +112,8 @@ function getInitial(){
       });
 }
 
+
 function donationAlert(){
-  console.log('looking at alerts');
   if(alertQueue.length > 0){
     let alertInfo = alertQueue.shift();
     let name = alertInfo.name;
@@ -155,7 +144,6 @@ function donationAlert(){
       $(".alert").remove();
     }, 7000);
   }
-  console.log(alertQueue)
 }
 
 function addEvent(total, goal) {
