@@ -1,0 +1,129 @@
+{
+   "changeSound": {
+   "type": "sound-input",
+   "label": "Donation total changed sound"
+ },
+  "scareSound": {
+   "type": "sound-input",
+   "label": "Donation scare changed sound"
+ },
+  "apiURL": {
+    "type": "text",
+    "label": "API URL",
+    "value": "API URL"
+  },
+  "campaignID": {
+    "type": "text",
+    "label": "RAINN Campaign ID",
+    "value": "Campaign ID"
+  },
+    "displayName": {
+    "type": "text",
+    "label": "Charity Display Name",
+    "value": "Charity name"
+  },
+    "teamID": {
+    "type": "text",
+    "label": "RAINN team ID",
+    "value": "Team ID"
+  },
+   "fontColor": {
+    "type": "colorpicker",
+    "label": "Font color",
+    "value": "rgb(255, 255, 255)"
+  },
+  "theme": {
+    "type": "dropdown",
+    "label": "Background pattern:",
+    "value": "texture",
+    "options": {
+      "texture": "texture",
+      "diagonal-stripes": "Diagonal stripes",
+      "hexagons": "Hexagons",
+      "i-like-food": "I like food",
+      "tiny-checkers": "Tiny checkers",
+      "circuit-board": "Circuit board"
+    }
+  },
+  "trackerHeight": {
+    "type": "number",
+    "min": 25,
+    "max": 100,
+    "step": 1,
+    "label": "Tracker height",
+    "value": 50
+  },
+    "trackerFontSize": {
+    "type": "number",
+    "min": 10,
+    "max": 40,
+    "step": 1,
+    "label": "Tracker Font Size",
+    "value": 30
+  },
+  "donorFontSize": {
+    "type": "number",
+    "min": 10,
+    "max": 40,
+    "step": 1,
+    "label": "Donor Font Size",
+    "value": 20
+  },
+  "trackerFontMarginTop": {
+    "type": "number",
+    "min": 0,
+    "max": 10,
+    "step": 1,
+    "label": "Tracker Top Margin",
+    "value": 10
+  },
+  "trackerFontMarginLeft": {
+    "type": "number",
+    "min": 0,
+    "max": 50,
+    "step": 1,
+    "label": "Tracker Left Margin",
+    "value": 10
+  },
+  "trackerFontMarginRight": {
+    "type": "number",
+    "min": 0,
+    "max": 50,
+    "step": 1,
+    "label": "Tracker Right Margin",
+    "value": 10
+  },
+  "backgroundOpacity": {
+    "type": "number",
+    "min": 0,
+    "max": 100,
+    "step": 1,
+    "label": "Texture opacity",
+    "value": 50
+  },
+  "backgroundColor": {
+    "type": "colorpicker",
+    "label": "Background color",
+    "value": "rgba(36, 6, 73, 0.15)"
+  },
+  "marqueeBackground": {
+    "type": "colorpicker",
+    "label": "Marquee Background color",
+    "value": "rgba(36, 6, 73, 0.15)"
+  },
+  "progressColor": {
+    "type": "colorpicker",
+    "label": "Progress color",
+    "value": "rgba(36, 6, 73, 0.15)"
+  },
+  "donorColor": {
+    "type": "colorpicker",
+    "label": "Donor color",
+    "value": "rgba(36, 6, 73, 0.15)"
+  },
+  "iconColor": {
+    "type": "colorpicker",
+    "label": "Icon Color",
+    "value": "rgb(255, 255, 255, 255)"
+  }
+}
