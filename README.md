@@ -4,3 +4,4 @@ Stream Elements custom widget for the Perky Pugs fundraisers for anything that h
 Current Trackers:
 -The Trevor Project
 -RAINN
+-Cleveland Clinic
