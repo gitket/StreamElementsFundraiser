@@ -1,0 +1,176 @@
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.prog-bar{
+	background-color:  {{progressColor}};
+  	height: {{trackerHeight}}px;
+ 	width: 0%;
+  	margin-top: -{{trackerHeight}}px;
+  	z-index: 2000;
+}
+.fadeOutClass{
+    animation: fadeOut 1s;
+    animation-delay:{{fadeoutTime}}s;
+    animation-fill-mode: forwards;
+}
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+.event-follower {
+    mask-image: url('https://cdn.streamelements.com/static/custom-event-list/follower.svg');
+    -webkit-mask-image: url('https://cdn.streamelements.com/static/custom-event-list/follower.svg');
+}
+
+@keyframes slide-in {
+    0% {
+        width: 0px;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+@keyframes pop-in {
+    0% {
+        width: 0px;
+        height: 0px;
+        background-size: 0px 0px;
+        margin-top: 23px;
+        margin-left: 24px;
+    }
+    50% {
+        width: 0px;
+        height: 0px;
+        background-size: 0px 0px;
+        margin-top: 12px;
+        margin-left: 12px;
+        margin-right: 12px;
+        margin-bottom: 12px
+    }
+    85% {
+        width: 23px;
+        height: 23px;
+        background-size: 23px 23px;
+        margin-top: 1px;
+        margin-left: 2px;
+        margin-right: 0px;
+        margin-bottom: 0px
+    }
+    100% {
+        width: 21px;
+        height: 21px;
+        background-size: 21px 21px;
+        margin-top: 2px;
+        margin-left: 3px;
+    }
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+.main-container{
+    color: {{fontColor}};
+  	font-size: {{trackerFontSize}}px;
+    -webkit-clip-path: polygon(3% 0, 100% 0%, 97% 100%, 0% 100%);
+	clip-path: polygon(3% 0, 100% 0%, 97% 100%, 0% 100%);
+}
+.event-container {
+    width: 0px;
+  	height: {{trackerHeight}}px;
+    display: flex;
+    justify-content: right;
+    background-color: {{backgroundColor}};
+    margin-top: 3px;
+    animation: 0.6s slide-in;
+    animation-fill-mode: forwards;
+}
+.backgroundsvg{
+    background: url(https://s3.amazonaws.com/cdn.streamelements.com/static/event-list/patterns/{{theme}}.svg);
+    background-size: 300px;
+    width:100%;
+   	opacity:calc({{backgroundOpacity}}/100);
+    position:relative;
+    z-index:0;
+}
+.username-container {
+    animation: 1.2s fade-in;
+    animation-fill-mode: forwards;
+    display: inline-block;
+    font-weight: 700;
+    margin-top: {{trackerFontMarginTop}}px;
+  	margin-left: {{trackerFontMarginLeft}}px;
+    position:absolute;
+}
+
+.goal-container {
+    position: absolute;
+    animation: 1.2s fade-in;
+    animation-fill-mode: forwards;
+    display: inline-block;
+    right: 0px;
+    font-weight: 700;
+    text-align: right;
+  	margin-right: {{trackerFontMarginRight}}px;
+    margin-left: 85px;
+  	margin-top: {{trackerFontMarginTop}}px;
+}
+
+.alert-container{
+    font-size: 30px;
+    font-weight: 700;
+  	color: #fff;
+	text-shadow: 0px 0px 1px #000, 0px 0px 2px #000, 0px 0px 3px #000, 0px 0px 4px #000, 0px 0px 5px #000;
+}
+.donor-highlight{
+  -webkit-text-fill-color:  {{donorColor}} !important;
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+  from {
+    text-shadow: 0px 0px 1px #000, 0px 0px 2px #000, 0px 0px 3px #000, 0px 0px 4px #000, 0px 0px 5px #000, 0 0 10px #000, 0 0 20px #000, 0 0 30px #000, 0 0 40px #000, 0 0 50px #000, 0 0 60px #000, 0 0 70px #000;
+  }
+  to {
+    text-shadow: 0px 0px 1px #000, 0px 0px 2px #000, 0px 0px 3px #000, 0px 0px 4px #000, 0px 0px 5px #000, 0 0 20px #000, 0 0 30px #000, 0 0 40px #000, 0 0 50px #000, 0 0 60px #000, 0 0 70px #000, 0 0 80px #000;
+  }
+}
+
+.donor-message{
+    font-size: 25px;
+}
+
+.marquee-container{
+  overflow:hidden;
+  background-color: {{marqueeBackground}};
+  color: {{donorColor}};
+  font-size: {{donorFontSize}}px;
+  height: 30px;
+  margin-right: 3%;
+}
+.marquee{
+  overflow: scroll-x;
+  min-width:150%;
+  animation: marquee 20s linear infinite;
+  margin-top: 2px;
+}
+.donor-spacer{
+	padding-right: 50px;
+}
+
+@keyframes marquee {
+  from{margin-left : 120%;}
+    to{margin-left: -120%;}
+} 
